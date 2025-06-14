@@ -102,8 +102,8 @@ app.post(subdir, async (request, response) => {
       embed = {
         author:
         {
-          title: "🧪 Test",
-          url: parsedBody.permalink
+          name: "🧪 Test",
+          icon_url: EMBED.AUTHOR.ICON_URL
         }, 
         timestamp: parsedBody.date,
         thumbnail: parsedBody.by?.photo ? { url: parsedBody.by.photo } : undefined,
