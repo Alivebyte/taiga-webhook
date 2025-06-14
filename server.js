@@ -15,7 +15,7 @@ const app = express()
 app.use(express.static('public'))
 
 // First: Save raw body for signature verification
-app.use(util.format('%s/webhook', subdir), express.raw({
+app.use(subdir, express.raw({
   type: 'application/json',
   verify: (req, res, buf) => {
     req.rawBody = buf
@@ -23,9 +23,9 @@ app.use(util.format('%s/webhook', subdir), express.raw({
 }))
 
 // Then: Parse JSON for body processing
-app.use(util.format('%s/webhook', subdir), express.json())
+app.use(subdir, express.json())
 
-app.get(util.format('%s/webhook', subdir), (request, response) => response.sendStatus(200))
+app.get(subdir, (request, response) => response.sendStatus(200))
 
 // Process url
 const url_contents = url.split("/")
@@ -78,7 +78,7 @@ const createErrorEmbed = (error, body) => {
   }
 }
 
-app.post(util.format('%s/webhook', subdir), async (request, response) => {
+app.post(subdir, async (request, response) => {
   try {
     const signature = request.headers['x-taiga-webhook-signature']
     const rawBody = request.rawBody
