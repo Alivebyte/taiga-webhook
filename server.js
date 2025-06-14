@@ -109,7 +109,7 @@ app.post(subdir, async (request, response) => {
         thumbnail: parsedBody.by?.photo ? { url: parsedBody.by.photo } : undefined,
         fields:[
           {
-            name: "✅ *Test!*",
+            name: "✅ **Test!**",
             value: "Webhook test",
             inline: false
           },
