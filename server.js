@@ -116,7 +116,7 @@ app.post(subdir, async (request, response) => {
         ],
         footer: { 
           icon_url: EMBED.FOOTER.ICON_URL,
-          text: `Managed by Koders • ${formatDate(parsedBody.date)}` 
+          text: `Managed by Koders • ${new Date().toLocaleString()}` 
         },
         color: COLORS.TEST
       }
