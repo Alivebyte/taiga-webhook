@@ -49,9 +49,11 @@ A simple webhook server for Taiga that forwards events to Discord.
    export WEBHOOK_URL="your-discord-webhook-url"
    export PORT=3000
    ```
+   Or use .env with .env.example example
+   
 4. Start the server:
    ```bash
-   node server.js
+   npm start
    ```
 
 ## Configuration
