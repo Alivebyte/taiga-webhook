@@ -10,7 +10,7 @@ const handleUserStoryEvent = require('./src/handlers/userStoryHandler')
 const handleTaskEvent = require('./src/handlers/taskHandler')
 const handleIssueEvent = require('./src/handlers/issueHandler')
 const subdir = process.env.SUBDIR || ""
-
+const url = process.env.WEBHOOK_URL || ""
 const app = express()
 app.use(express.static('public'))
 
@@ -27,8 +27,13 @@ app.use(util.format('%s/webhook', subdir), express.json())
 
 app.get(util.format('%s/webhook', subdir), (request, response) => response.sendStatus(200))
 
+// Process url
+const url_contents = url.split("/")
+
+const ID = url_contents[5]
+const TOKEN = url_contents[6]
 // Create webhook client once
-const webhookClient = new WebhookClient(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN)
+const webhookClient = new WebhookClient(ID, TOKEN)
 
 // Helper function to create error embed
 const createErrorEmbed = (error, body) => {
