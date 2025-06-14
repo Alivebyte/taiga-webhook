@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const util = require('node:util')
 const { WebhookClient } = require('discord.js')
 const { verifySignature } = require('./src/utils/helpers')
 const { COLORS, EMBED } = require('./src/config/constants')
@@ -8,12 +9,13 @@ const handleMilestoneEvent = require('./src/handlers/milestoneHandler')
 const handleUserStoryEvent = require('./src/handlers/userStoryHandler')
 const handleTaskEvent = require('./src/handlers/taskHandler')
 const handleIssueEvent = require('./src/handlers/issueHandler')
+const subdir = process.env.SUBDIR || ""
 
 const app = express()
 app.use(express.static('public'))
 
 // First: Save raw body for signature verification
-app.use('/webhook', express.raw({
+app.use(util.format('%s/webhook', subdir), express.raw({
   type: 'application/json',
   verify: (req, res, buf) => {
     req.rawBody = buf
@@ -21,9 +23,9 @@ app.use('/webhook', express.raw({
 }))
 
 // Then: Parse JSON for body processing
-app.use('/webhook', bodyParser.json())
+app.use(util.format('%s/webhook', subdir), express.json())
 
-app.get('/webhook', (request, response) => response.sendStatus(200))
+app.get(util.format('%s/webhook', subdir), (request, response) => response.sendStatus(200))
 
 // Create webhook client once
 const webhookClient = new WebhookClient(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN)
@@ -71,15 +73,15 @@ const createErrorEmbed = (error, body) => {
   }
 }
 
-app.post('/webhook', async (request, response) => {
+app.post(util.format('%s/webhook', subdir), async (request, response) => {
   try {
     const signature = request.headers['x-taiga-webhook-signature']
     const rawBody = request.rawBody
     const parsedBody = JSON.parse(rawBody.toString('utf8'))
     
-    if (!verifySignature(process.env.KEY, rawBody, signature)) {
+    if (!verifySignature(process.env.WEBHOOK_SECRET, rawBody, signature)) {
       console.error('Invalid signature:', {
-        computed: crypto.createHmac('sha1', process.env.KEY).update(rawBody).digest('hex'),
+        computed: crypto.createHmac('sha1', process.env.WEBHOOK_SECRET).update(rawBody).digest('hex'),
         received: signature
       })
       return response.status(401).send('Invalid signature')

@@ -1,7 +1,7 @@
 {
-  "name": "taiga.io",
+  "name": "taiga-webhook",
   "description": "A simple Webhook built on Express for taiga.io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "server.js",
   "scripts": {
     "start": "node -r dotenv/config server.js"

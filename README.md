@@ -64,6 +64,10 @@ The server requires the following environment variables:
 - `WEBHOOK_URL`: The Discord webhook URL to forward events to
 - `PORT`: The port number to run the server on (default: 3000)
 
+The following environment variable is optional:
+
+- `SUBDIR`: Subdirectory to webhook
+
 ## Event Details
 
 ### Milestone Events
