@@ -106,7 +106,7 @@ app.post(subdir, async (request, response) => {
           url: parsedBody.permalink
         }, 
         timestamp: parsedBody.date,
-        thumbnail: body.by?.photo ? { url: body.by.photo } : undefined,
+        thumbnail: parsedBody.by?.photo ? { url: parsedBody.by.photo } : undefined,
         fields:[
           {
             name: "✅ *Test!*",
