@@ -100,11 +100,23 @@ app.post(subdir, async (request, response) => {
 
     if (parsedBody.type === 'test') {
       embed = {
-        description: 'just a test',
+        author:
+        {
+          title: "🧪 Test",
+          url: parsedBody.permalink
+        }, 
         timestamp: parsedBody.date,
+        thumbnail: body.by?.photo ? { url: body.by.photo } : undefined,
+        fields:[
+          {
+            name: "✅ *Test!*",
+            value: "Webhook test",
+            inline: false
+          },
+        ],
         footer: { 
-          icon_url: parsedBody.by.photo, 
-          text: parsedBody.by.full_name 
+          icon_url: EMBED.FOOTER.ICON_URL,
+          text: `Managed by Koders • ${formatDate(parsedBody.date)}` 
         },
         color: COLORS.TEST
       }
