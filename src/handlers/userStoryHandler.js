@@ -62,7 +62,7 @@ const handleUserStoryEvent = (body) => {
   if (userStory.description) {
     extraFields.push({
       name: '📄 Description',
-      value: sizeof(userStory.description) <= 1024 ? userStory.description : "Description too long!", 
+      value: userStory.description.length <= 1024 ? userStory.description : "Description too long!", 
     })
   }
 

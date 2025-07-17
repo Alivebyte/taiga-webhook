@@ -98,14 +98,14 @@ const handleWikiPageEvent = (body) => {
       if (body.change.diff.content_html) {
         fields.push({
           name: '📝 Content Changes',
-          value: sizeof(`**From:**\n${body.change.diff.content_html.from}\n\n**To:**\n${body.change.diff.content_html.to}`) <= 1024 ? `**From:**\n${body.change.diff.content_html.from}\n\n**To:**\n${body.change.diff.content_html.to}` : `Too long diff!`,
+          value: `**From:**\n${body.change.diff.content_html.from}\n\n**To:**\n${body.change.diff.content_html.to}`.length <= 1024 ? `**From:**\n${body.change.diff.content_html.from}\n\n**To:**\n${body.change.diff.content_html.to}` : `Content Changes too long!`,
         })
       }
 
       if (body.change.diff.content_diff) {
         fields.push({
           name: '🔍 Diff View',
-          value: body.change.diff.content_diff.to
+          value: (body.change.diff.content_diff.to).length <= 1024 ? body.change.diff.content_diff.to : 'Diff View too long!',
         })
       }
 
