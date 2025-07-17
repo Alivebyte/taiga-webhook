@@ -76,7 +76,7 @@ const handleTaskEvent = (body) => {
   if (task.description) {
     extraFields.push({
       name: '📄 Description',
-      value: task.description
+      value: sizeof(task.description) <= 1024 ? task.description : 'Description too long!',
     })
   }
 
